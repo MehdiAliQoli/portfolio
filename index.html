@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mehdi Ali — CS Student & Developer</title>
+  <meta name="description" content="Mehdi Ali is a Computer Science student at IBA Karachi who loves building full-stack platforms, games, and open-source tools. Based in Karachi, Pakistan.">
+  <meta name="theme-color" content="#a8d8ea">
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f9fc;
+      --line: #7f00e0;
+      --fill: #a8d8ea;
+      --text: #0f1b61;
+      --subtext: #73bbc5;
+      --duo: #a8d8ea;
+      --radius: 4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── SKIP LINK ─────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -999px;
+      left: -999px;
+      background: var(--text);
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 8px; left: 8px; }
+
+    /* ─── LOADING SCREEN ─────────────────────────────────── */
+    .loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--text);
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .loading.done { opacity: 0; visibility: hidden; pointer-events: none; }
+    .lds-ellipsis { display: inline-block; position: relative; width: 64px; height: 16px; }
+    .lds-ellipsis div {
+      position: absolute;
+      top: 0;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      background: var(--fill);
+      animation-timing-function: cubic-bezier(0,1,1,0);
+    }
+    .lds-ellipsis div:nth-child(1) { left:6px; animation: lds-ellipsis1 0.6s infinite; }
+    .lds-ellipsis div:nth-child(2) { left:6px; animation: lds-ellipsis2 0.6s infinite; }
+    .lds-ellipsis div:nth-child(3) { left:26px; animation: lds-ellipsis2 0.6s infinite; }
+    .lds-ellipsis div:nth-child(4) { left:45px; animation: lds-ellipsis3 0.6s infinite; }
+    @keyframes lds-ellipsis1 { 0%{transform:scale(0)} 100%{transform:scale(1)} }
+    @keyframes lds-ellipsis3 { 0%{transform:scale(1)} 100%{transform:scale(0)} }
+    @keyframes lds-ellipsis2 { 0%{transform:translate(0,0)} 100%{transform:translate(19px,0)} }
+
+    /* ─── STRIPES & DOTS ─────────────────────────────────── */
+    .stripes {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22.93 22.93'%3E%3Cpolygon fill='%23a8d8ea' points='0 8.18 14.75 22.93 22.74 22.93 0 0.19 0 8.18'/%3E%3Cpolygon fill='%23a8d8ea' points='22.93 8.37 22.93 0.38 22.56 0 14.56 0 22.93 8.37'/%3E%3C/svg%3E");
+      background-size: 11px;
+      opacity: 0.6;
+    }
+    .dots {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22.9 22.9'%3E%3Ccircle fill='%23a8d8ea' cx='5.7' cy='5.9' r='3'/%3E%3Ccircle fill='%23a8d8ea' cx='17.2' cy='17.2' r='3'/%3E%3C/svg%3E");
+      background-size: 12px;
+    }
+
+    /* ─── PAGE WRAP ──────────────────────────────────────── */
+    .pagewrap { position: relative; }
+
+    /* ─── NAV ────────────────────────────────────────────── */
+    .mainnav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+    }
+
+    /* Logo */
+    .logo-wrap a { display: flex; align-items: center; }
+    .logo-mark {
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 100%; height: 100%; }
+    .logo-mark .stroke-poly {
+      fill: none;
+      stroke: var(--text);
+      stroke-width: 3;
+      stroke-linejoin: round;
+    }
+    .logo-mark .filled-poly { fill: var(--fill); }
+
+    /* Menu trigger */
+    .menu-link__trigger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Bitter', serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      padding: 8px 0;
+      position: relative;
+      z-index: 600;
+    }
+    .menu-link__label { display: block; }
+    .menu-link__label--close { display: none; }
+    .menu-open .menu-link__label--close { display: block; }
+    .menu-open .menu-link__label--open { display: none; }
+
+    /* Hire me */
+    .hire-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--fill);
+      border: 2px solid var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      transition: transform 0.2s, background 0.2s;
+      position: relative;
+      z-index: 600;
+    }
+    .hire-me::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--text);
+      transform: translate(4px, 4px);
+      z-index: -1;
+    }
+    .hire-me:hover { transform: translate(-2px, -2px); }
+
+    /* ─── MENU OVERLAY ───────────────────────────────────── */
+    .main-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--text);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .main-menu.is-open { opacity: 1; visibility: visible; }
+    .main-menu__inr { text-align: center; }
+
+    .primary-links { list-style: none; }
+    .primary-links__item { margin: 16px 0; }
+    .primary-links__link {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--fill);
+      letter-spacing: -0.02em;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+    .primary-links__link:hover { color: #fff; }
+    .primary-links__summary {
+      display: block;
+      color: var(--subtext);
+      font-size: 0.9rem;
+      margin-top: -4px;
+    }
+
+    .social-links { list-style: none; display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; }
+    .social-links__link {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .social-links__link:hover { opacity: 1; }
+
+    /* ─── AVATAR SECTION ─────────────────────────────────── */
+    .avatar-section {
+      position: relative;
+      padding-top: 80px;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+    }
+    .avatar-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .avatar-wrap {
+      position: relative;
+      width: min(420px, 70vw);
+      bottom: 0;
+    }
+    .bar-outer {
+      position: absolute;
+      left: -20px;
+      top: 10%;
+      width: 60%;
+      height: 12px;
+      z-index: 1;
+    }
+    .bar { width: 100%; height: 100%; }
+
+    /* ─── THE AVATAR SVG ─────────────────────────────────── */
+    .avatar-svg-wrap {
+      position: relative;
+      width: 100%;
+      transition: transform 0.1s ease-out;
+    }
+
+    .avatar-base {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* skin */
+    .skin { fill: #f5c5a3; }
+    .skin-dark { fill: #e8a882; }
+    /* hair */
+    .hair-fill { fill: #2c1810; }
+    /* shirt */
+    .shirt-fill { fill: var(--fill); }
+    .shirt-stroke { fill: none; stroke: var(--text); stroke-width: 2; }
+    /* glasses */
+    .glasses-stroke { fill: none; stroke: var(--text); stroke-width: 2.5; stroke-linejoin: round; }
+    .glasses-fill { fill: var(--text); opacity: 0.08; }
+    /* outline */
+    .face-stroke { fill: none; stroke: var(--text); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    /* eyes */
+    .eye-white { fill: #fff; }
+    .eye-pupil { fill: var(--text); }
+    .eyebrow-fill { fill: #2c1810; }
+
+    /* ─── HERO HEADER ────────────────────────────────────── */
+    .page-header {
+      position: relative;
+      z-index: 10;
+      padding: 80px 32px 60px;
+      max-width: 1200px;
+    }
+    .page-header__title {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+    }
+    .t-outline {
+      -webkit-text-stroke: 2px var(--text);
+      color: transparent;
+    }
+    .t-outline b { -webkit-text-stroke: 0; color: var(--text); }
+    .dot { color: var(--line); -webkit-text-stroke: 0; }
+    .page-header__lede {
+      font-size: 1.1rem;
+      margin-top: 16px;
+      color: var(--text);
+      max-width: 400px;
+    }
+    .scroll-hint {
+      display: inline-flex;
+      gap: 4px;
+      margin-top: 32px;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    /* ─── REVEAL ANIMATION ───────────────────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    [data-reveal].is-onscreen { opacity: 1; transform: translateY(0); }
+
+    /* ─── MAIN CONTENT ───────────────────────────────────── */
+    .content-wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+    /* panels */
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 80px 32px;
+      max-width: 700px;
+    }
+    .article-heading__title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .flow p { line-height: 1.8; margin-bottom: 16px; font-size: 1.05rem; }
+
+    /* btn */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 28px;
+      background: var(--fill);
+      border: 2px solid var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      position: relative;
+      transition: transform 0.2s;
+      margin-top: 8px;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--text);
+      transform: translate(5px, 5px);
+      z-index: -1;
+      transition: transform 0.2s;
+    }
+    .btn:hover { transform: translate(-2px, -2px); }
+    .btn:hover::after { transform: translate(7px, 7px); }
+
+    /* ─── DOT HEADER SECTION ─────────────────────────────── */
+    .dot-header {
+      padding: 60px 32px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 32px;
+      border-top: 2px solid var(--fill);
+    }
+    .dot-header__content h2 {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .dot-header__content p { color: var(--text); opacity: 0.7; max-width: 480px; }
+    .dot-header__dots { width: 80px; height: 80px; }
+    .dot-header__dots .dots { width: 100%; height: 100%; display: block; }
+
+    /* ─── PROJECTS ───────────────────────────────────────── */
+    .project-promo { padding: 0 32px 80px; }
+    .project {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 48px 0;
+      border-bottom: 1px solid var(--fill);
+    }
+    .project:last-child { border-bottom: none; }
+
+    @media (max-width: 700px) {
+      .project { grid-template-columns: 1fr; }
+    }
+
+    .project__header {
+      aspect-ratio: 16/10;
+      background: var(--fill);
+      border: 2px solid var(--text);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project__header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--text);
+      transform: translate(6px, 6px);
+      z-index: -1;
+    }
+    .project__header svg { width: 70%; height: auto; }
+    .project__details h3 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .tech-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      background: var(--fill);
+      border: 1px solid var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      margin: 2px;
+      letter-spacing: 0.05em;
+    }
+    .tags-wrap { margin: 12px 0 16px; }
+
+    /* ─── SKILLS SECTION ─────────────────────────────────── */
+    .skills-section {
+      padding: 60px 32px;
+      border-top: 2px solid var(--fill);
+    }
+    .skills-section h2 {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .skill-card {
+      padding: 20px;
+      border: 2px solid var(--text);
+      background: var(--bg);
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--fill);
+      z-index: -1;
+      transform: translate(4px, 4px);
+    }
+    .skill-card:hover { transform: translate(-2px, -2px); }
+    .skill-card h4 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; color: var(--subtext); }
+    .skill-card p { font-size: 14px; line-height: 1.6; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 40px 32px;
+      font-size: 13px;
+      opacity: 0.5;
+      letter-spacing: 0.05em;
+      border-top: 1px solid var(--fill);
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .mainnav { padding: 12px 20px; }
+      .hire-me { display: none; }
+      .panels { padding: 40px 20px; }
+      .dot-header { padding: 40px 20px; grid-template-columns: 1fr; }
+      .project-promo { padding: 0 20px 60px; }
+      .skills-section { padding: 40px 20px; }
+      .page-header { padding: 60px 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<!-- Loading -->
+<div class="loading" id="loader">
+  <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
+
+<div class="pagewrap">
+
+  <!-- ── NAV ─────────────────────────────────────── -->
+  <nav class="mainnav" role="navigation">
+    <div class="logo-wrap">
+      <a href="#" aria-label="Back to homepage">
+        <div class="logo-mark">
+          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+            <polygon class="filled-poly" style="fill:var(--fill)" points="172,110 98,110 36,188 110,188 160,188 234,188"/>
+            <polygon class="stroke-poly" style="fill:none;stroke:var(--text);stroke-width:8;stroke-linejoin:round" points="90,99 28,177 152,177"/>
+            <polygon class="stroke-poly" style="fill:none;stroke:var(--text);stroke-width:8;stroke-linejoin:round" points="164,99 102,177 226,177"/>
+            <line style="stroke:var(--text);stroke-width:8" x1="90" y1="99" x2="164" y2="99"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <button class="menu-link__trigger" id="menuTrigger" aria-expanded="false" aria-controls="main-menu">
+      <span class="menu-link__label menu-link__label--open">Menu</span>
+      <span class="menu-link__label menu-link__label--close">Close</span>
+    </button>
+
+    <a class="hire-me" href="mailto:mehdiali.cs2028@gmail.com?subject=Hi Mehdi, I'd like to connect">
+      Hire me
+    </a>
+  </nav>
+
+  <!-- ── MENU OVERLAY ─────────────────────────────── -->
+  <div class="main-menu" id="main-menu" role="dialog" aria-label="Main menu">
+    <div class="main-menu__inr">
+      <ul class="social-links">
+        <li><a class="social-links__link" href="https://github.com/mehdialiqoli" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a class="social-links__link" href="https://linkedin.com/in/mehdi-ali-qoli" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a class="social-links__link" href="mailto:mehdiali.cs2028@gmail.com">Email</a></li>
+        <li><a class="social-links__link" href="https://openprep.com.pk" target="_blank" rel="noopener">OpenPrep</a></li>
+      </ul>
+      <ul class="primary-links">
+        <li class="primary-links__item">
+          <a class="primary-links__link" href="#">Home</a>
+          <span class="primary-links__summary">Back to the home page.</span>
+        </li>
+        <li class="primary-links__item">
+          <a class="primary-links__link" href="#projects">Projects</a>
+          <span class="primary-links__summary">Things I've built.</span>
+        </li>
+        <li class="primary-links__item">
+          <a class="primary-links__link" href="#skills">Skills</a>
+          <span class="primary-links__summary">What I work with.</span>
+        </li>
+        <li class="primary-links__item">
+          <a class="primary-links__link" href="mailto:mehdiali.cs2028@gmail.com">Contact</a>
+          <span class="primary-links__summary">Get in touch.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── MAIN ─────────────────────────────────────── -->
+  <main id="main-content" tabindex="-1">
+
+    <!-- Avatar + Hero -->
+    <div class="avatar-section">
+      <div class="avatar-bg">
+        <div class="avatar-wrap">
+          <!-- stripe bar -->
+          <div class="bar-outer">
+            <div class="bar stripes"></div>
+          </div>
+
+          <!-- ── AVATAR SVG ──────────────────────────── -->
+          <div class="avatar-svg-wrap" id="avatarWrap">
+            <svg class="avatar-base" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" id="avatarSvg">
+              <!-- Shadow -->
+              <ellipse cx="200" cy="510" rx="100" ry="8" fill="var(--text)" opacity="0.12"/>
+
+              <!-- Shoulders / Shirt -->
+              <path class="shirt-fill" d="M80,520 C80,430 120,400 200,400 C280,400 320,430 320,520 Z"/>
+              <path class="shirt-stroke" d="M80,520 C80,430 120,400 200,400 C280,400 320,430 320,520"/>
+              <!-- Shirt collar detail -->
+              <path class="shirt-stroke" d="M175,405 L200,440 L225,405"/>
+
+              <!-- Neck -->
+              <rect class="skin" x="178" y="345" width="44" height="65" rx="10"/>
+              <path class="face-stroke" d="M178,380 L178,355 Q200,368 222,355 L222,380"/>
+
+              <!-- Head base -->
+              <ellipse class="skin" cx="200" cy="260" rx="110" ry="130"/>
+
+              <!-- Hair -->
+              <path class="hair-fill" d="
+                M100,230
+                C 95,140 130,100 200,95
+                C 270,100 305,140 300,230
+                C 295,200 280,175 260,165
+                C 245,158 230,155 215,155
+                C 210,140 205,125 200,115
+                C 195,125 190,140 185,155
+                C 170,155 155,158 140,165
+                C 120,175 105,200 100,230
+                Z
+              "/>
+              <!-- Hair side details -->
+              <path class="face-stroke" style="stroke:var(--hair,#2c1810);stroke-width:1.5;fill:none" d="M105,200 C100,160 130,120 170,105"/>
+              <path class="face-stroke" style="stroke:var(--hair,#2c1810);stroke-width:1.5;fill:none" d="M295,200 C300,160 270,120 230,105"/>
+
+              <!-- Ears -->
+              <ellipse class="skin" cx="92" cy="263" rx="14" ry="18"/>
+              <ellipse class="skin" cx="308" cy="263" rx="14" ry="18"/>
+              <path class="face-stroke" d="M92,248 Q82,258 82,265 Q82,275 92,280"/>
+              <path class="face-stroke" d="M308,248 Q318,258 318,265 Q318,275 308,280"/>
+
+              <!-- ── EYES (pupils will be animated) ─── -->
+              <!-- Left eye socket -->
+              <ellipse class="eye-white" cx="165" cy="268" rx="20" ry="18"/>
+              <!-- Right eye socket -->
+              <ellipse class="eye-white" cx="235" cy="268" rx="20" ry="18"/>
+              <!-- Left pupil group -->
+              <g id="leftEyeGroup">
+                <circle class="eye-pupil" cx="165" cy="268" r="8" id="leftPupil"/>
+                <circle fill="white" cx="168" cy="265" r="2.5"/>
+              </g>
+              <!-- Right pupil group -->
+              <g id="rightEyeGroup">
+                <circle class="eye-pupil" cx="235" cy="268" r="8" id="rightPupil"/>
+                <circle fill="white" cx="238" cy="265" r="2.5"/>
+              </g>
+
+              <!-- Glasses -->
+              <rect class="glasses-fill" x="140" y="250" width="50" height="36" rx="8"/>
+              <rect class="glasses-fill" x="210" y="250" width="50" height="36" rx="8"/>
+              <rect class="glasses-stroke" x="140" y="250" width="50" height="36" rx="8"/>
+              <rect class="glasses-stroke" x="210" y="250" width="50" height="36" rx="8"/>
+              <!-- bridge -->
+              <line class="glasses-stroke" x1="190" y1="268" x2="210" y2="268"/>
+              <!-- arms -->
+              <line class="glasses-stroke" x1="140" y1="268" x2="108" y2="265"/>
+              <line class="glasses-stroke" x1="260" y1="268" x2="292" y2="265"/>
+
+              <!-- Eyebrows -->
+              <path class="eyebrow-fill" d="M142,242 Q163,234 185,240 L184,246 Q163,240 143,248 Z"/>
+              <path class="eyebrow-fill" d="M215,240 Q237,234 258,242 L257,248 Q237,240 216,246 Z"/>
+
+              <!-- Nose -->
+              <path class="face-stroke" d="M196,275 L192,303 Q200,310 208,303 L204,275"/>
+
+              <!-- Mouth — smile -->
+              <path class="face-stroke" d="M178,325 Q200,342 222,325"/>
+
+              <!-- Beard / stubble hints -->
+              <path class="face-stroke" style="opacity:0.2;stroke-width:1" d="M165,330 Q180,338 200,340 Q220,338 235,330"/>
+            </svg>
+          </div>
+          <!-- end avatar -->
+
+        </div>
+      </div>
+
+      <!-- Hero text -->
+      <header class="page-header" data-reveal>
+        <h1 class="page-header__title t-outline lh-tight">
+          Hi, my&nbsp;<br>name is <b>Mehdi</b><span class="dot">.</span>
+        </h1>
+        <p class="page-header__lede">I'm a <b>CS student & full-stack developer</b> from Karachi, Pakistan.</p>
+        <div class="scroll-hint" aria-hidden="true">
+          <span>S</span><span>c</span><span>r</span><span>o</span><span>l</span><span>l</span>
+        </div>
+      </header>
+    </div>
+
+    <!-- Let's work together -->
+    <div class="panels" data-reveal>
+      <div class="panels__main">
+        <div class="article-heading">
+          <h2 class="article-heading__title">
+            <span>Let's work <b>together</b><span class="dot">.</span></span>
+          </h2>
+        </div>
+        <div class="flow">
+          <p>From full-stack web platforms to 2D game engines, I love building things that solve real problems. Currently studying Computer Science at <b>IBA Karachi</b> while shipping side projects and mentoring students.</p>
+          <p>Whether it's a clean backend, a polished UI, or something more experimental — <b>I'm here for the challenge</b>.</p>
+          <a href="mailto:mehdiali.cs2028@gmail.com?subject=Let's work together" class="btn">Get in touch</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects header -->
+    <div class="dot-header" id="projects" data-reveal>
+      <div class="dot-header__content">
+        <h2>Projects<span class="dot">.</span></h2>
+        <p>Here are two of the most significant projects I've built — both shipped, both live.</p>
+      </div>
+      <div class="dot-header__dots">
+        <div class="dots" style="width:80px;height:80px;display:block;opacity:0.6"></div>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="project-promo" data-reveal>
+
+      <!-- Open Prep -->
+      <div class="project">
+        <div class="project__header">
+          <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+            <!-- Book icon -->
+            <rect x="40" y="25" width="55" height="75" rx="3" fill="var(--text)" opacity="0.15"/>
+            <rect x="42" y="27" width="53" height="73" rx="2" fill="white" stroke="var(--text)" stroke-width="2"/>
+            <rect x="105" y="25" width="55" height="75" rx="3" fill="var(--text)" opacity="0.15"/>
+            <rect x="107" y="27" width="53" height="73" rx="2" fill="white" stroke="var(--text)" stroke-width="2"/>
+            <!-- spine -->
+            <rect x="96" y="24" width="8" height="77" rx="2" fill="var(--fill)" stroke="var(--text)" stroke-width="1.5"/>
+            <!-- lines -->
+            <line x1="52" y1="45" x2="88" y2="45" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="52" y1="55" x2="88" y2="55" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="52" y1="65" x2="88" y2="65" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="52" y1="75" x2="75" y2="75" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="115" y1="45" x2="151" y2="45" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="115" y1="55" x2="151" y2="55" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="115" y1="65" x2="151" y2="65" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <line x1="115" y1="75" x2="138" y2="75" stroke="var(--text)" stroke-width="2" opacity="0.5"/>
+            <!-- graduation cap -->
+            <polygon points="100,95 70,108 100,120 130,108" fill="var(--fill)" stroke="var(--text)" stroke-width="2" stroke-linejoin="round"/>
+            <polygon points="100,83 70,96 100,108 130,96" fill="var(--text)" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="project__details">
+          <h3>Open <b>Prep</b><span class="dot">.</span></h3>
+          <div class="tags-wrap">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Supabase</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">HTML/CSS</span>
+          </div>
+          <div class="flow">
+            <p>A free, full-stack exam preparation platform for university admissions in Pakistan — serving <b>500+ active users</b> with 10,000+ MCQs and real-time progress analytics.</p>
+            <p>Built with secure authentication via Supabase Auth with Row Level Security, and optimised PostgreSQL queries for fast performance.</p>
+          </div>
+          <a href="https://openprep.com.pk" target="_blank" rel="noopener noreferrer" class="btn">Visit OpenPrep</a>
+        </div>
+      </div>
+
+      <!-- Wer-Jingo -->
+      <div class="project">
+        <div class="project__header">
+          <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+            <!-- Game controller icon -->
+            <rect x="35" y="40" width="130" height="65" rx="30" fill="var(--text)" opacity="0.12"/>
+            <rect x="38" y="43" width="124" height="59" rx="28" fill="var(--fill)" stroke="var(--text)" stroke-width="2"/>
+            <!-- D-pad -->
+            <rect x="60" y="63" width="8" height="20" rx="2" fill="var(--text)" opacity="0.7"/>
+            <rect x="55" y="68" width="18" height="10" rx="2" fill="var(--text)" opacity="0.7"/>
+            <!-- buttons -->
+            <circle cx="135" cy="68" r="5" fill="var(--text)" opacity="0.8"/>
+            <circle cx="148" cy="73" r="5" fill="var(--text)" opacity="0.5"/>
+            <circle cx="135" cy="78" r="5" fill="var(--text)" opacity="0.5"/>
+            <circle cx="122" cy="73" r="5" fill="var(--text)" opacity="0.5"/>
+            <!-- joystick hints -->
+            <circle cx="90" cy="82" r="8" fill="var(--text)" opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+            <circle cx="115" cy="55" r="8" fill="var(--text)" opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+            <!-- start/select -->
+            <rect x="93" y="70" width="12" height="4" rx="2" fill="var(--text)" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="project__details">
+          <h3>Wer-<b>Jingo</b><span class="dot">.</span></h3>
+          <div class="tags-wrap">
+            <span class="tech-tag">C++</span>
+            <span class="tech-tag">Allegro 5</span>
+            <span class="tech-tag">OOP</span>
+            <span class="tech-tag">Game Dev</span>
+          </div>
+          <div class="flow">
+            <p>A 2D game engine built in C++ using Allegro 5 — featuring <b>7 playable levels</b>, an open-world map with persistent state, enemy AI with pattern-based behavior, and boss encounters.</p>
+            <p>Designed with a clean OOP architecture applying SOLID principles for scalable game systems, including dynamic camera tracking and entity collision detection.</p>
+          </div>
+          <a href="https://github.com/mehdialiqoli" target="_blank" rel="noopener noreferrer" class="btn">View on GitHub</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Skills -->
+    <div class="skills-section" id="skills" data-reveal>
+      <h2>Skills<span class="dot">.</span></h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h4>Languages</h4>
+          <p>C++, Python, JavaScript, HTML, CSS</p>
+        </div>
+        <div class="skill-card">
+          <h4>Backend & DB</h4>
+          <p>PostgreSQL, Supabase, Row Level Security</p>
+        </div>
+        <div class="skill-card">
+          <h4>Tools</h4>
+          <p>Git & GitHub, Netlify, Allegro 5, WordPress</p>
+        </div>
+        <div class="skill-card">
+          <h4>Concepts</h4>
+          <p>OOP, DSA, System Design, Computer Architecture</p>
+        </div>
+        <div class="skill-card">
+          <h4>Languages</h4>
+          <p>English, Urdu, Balti</p>
+        </div>
+        <div class="skill-card">
+          <h4>Currently</h4>
+          <p>BS Computer Science @ IBA Karachi · CGPA 3.18 · 4th Sem</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <small>© 2026 Mehdi Ali — Karachi, Pakistan</small>
+  </footer>
+
+</div><!-- /pagewrap -->
+
+<script>
+  // ── LOADING ─────────────────────────────────────────────
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('done');
+    }, 600);
+  });
+
+  // ── MENU ────────────────────────────────────────────────
+  const menuTrigger = document.getElementById('menuTrigger');
+  const mainMenu = document.getElementById('main-menu');
+  const body = document.body;
+
+  menuTrigger.addEventListener('click', () => {
+    const isOpen = mainMenu.classList.toggle('is-open');
+    menuTrigger.setAttribute('aria-expanded', isOpen);
+    menuTrigger.parentElement.classList.toggle('menu-open', isOpen);
+    body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  mainMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mainMenu.classList.remove('is-open');
+      menuTrigger.setAttribute('aria-expanded', 'false');
+      menuTrigger.parentElement.classList.remove('menu-open');
+      body.style.overflow = '';
+    });
+  });
+
+  // ── REVEAL ON SCROLL ────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('is-onscreen');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+  // ── EYE TRACKING ────────────────────────────────────────
+  const leftPupil  = document.getElementById('leftPupil');
+  const rightPupil = document.getElementById('rightPupil');
+  const avatarSvg  = document.getElementById('avatarSvg');
+  const avatarWrap = document.getElementById('avatarWrap');
+
+  // Original eye centres in SVG coords
+  const leftEyeCenter  = { x: 165, y: 268 };
+  const rightEyeCenter = { x: 235, y: 268 };
+  const MAX_OFFSET = 6; // max pixels the pupil can travel
+
+  let targetLX = 165, targetLY = 268;
+  let targetRX = 235, targetRY = 268;
+  let currentLX = 165, currentLY = 268;
+  let currentRX = 235, currentRY = 268;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function animate() {
+    currentLX = lerp(currentLX, targetLX, 0.08);
+    currentLY = lerp(currentLY, targetLY, 0.08);
+    currentRX = lerp(currentRX, targetRX, 0.08);
+    currentRY = lerp(currentRY, targetRY, 0.08);
+
+    leftPupil.setAttribute('cx', currentLX);
+    leftPupil.setAttribute('cy', currentLY);
+    // move highlight too
+    const leftHighlight = leftPupil.nextElementSibling;
+    if (leftHighlight) {
+      leftHighlight.setAttribute('cx', currentLX + 3);
+      leftHighlight.setAttribute('cy', currentLY - 3);
+    }
+
+    rightPupil.setAttribute('cx', currentRX);
+    rightPupil.setAttribute('cy', currentRY);
+    const rightHighlight = rightPupil.nextElementSibling;
+    if (rightHighlight) {
+      rightHighlight.setAttribute('cx', currentRX + 3);
+      rightHighlight.setAttribute('cy', currentRY - 3);
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  function getSvgPoint(svgEl, clientX, clientY) {
+    const rect = svgEl.getBoundingClientRect();
+    const vb = svgEl.viewBox.baseVal;
+    return {
+      x: ((clientX - rect.left) / rect.width)  * vb.width,
+      y: ((clientY - rect.top)  / rect.height) * vb.height
+    };
+  }
+
+  function movePupils(cursorSvgX, cursorSvgY) {
+    [
+      { center: leftEyeCenter,  setX: v => targetLX = v, setY: v => targetLY = v },
+      { center: rightEyeCenter, setX: v => targetRX = v, setY: v => targetRY = v }
+    ].forEach(({ center, setX, setY }) => {
+      const dx = cursorSvgX - center.x;
+      const dy = cursorSvgY - center.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const clamp = Math.min(dist, MAX_OFFSET);
+      const angle = Math.atan2(dy, dx);
+      setX(center.x + Math.cos(angle) * clamp);
+      setY(center.y + Math.sin(angle) * clamp);
+    });
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    const svgPoint = getSvgPoint(avatarSvg, e.clientX, e.clientY);
+    movePupils(svgPoint.x, svgPoint.y);
+
+    // Subtle head lean
+    const rect = avatarWrap.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const rx = (e.clientX - cx) / window.innerWidth;
+    const ry = (e.clientY - cy) / window.innerHeight;
+    avatarWrap.style.transform = `translate(${rx * 8}px, ${ry * 5}px)`;
+  });
+
+  // Touch support
+  document.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const svgPoint = getSvgPoint(avatarSvg, touch.clientX, touch.clientY);
+    movePupils(svgPoint.x, svgPoint.y);
+  }, { passive: true });
+
+  // ── SCROLL HINT FADE ────────────────────────────────────
+  const scrollHint = document.querySelector('.scroll-hint');
+  window.addEventListener('scroll', () => {
+    if (scrollHint) {
+      scrollHint.style.opacity = Math.max(0, 0.4 - window.scrollY / 200);
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
